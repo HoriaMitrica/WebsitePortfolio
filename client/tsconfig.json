@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "public/Helpers/ModelHelper.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "public/Helpers/ModelHelper.js", "app/Components/Environment/Test_land.jsx"],
   "exclude": ["node_modules"]
 }

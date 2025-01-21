@@ -1,36 +1,55 @@
+"use client";
 
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Physics, useBox, usePlane } from '@react-three/cannon'
-import { Mesh } from "three";
-import { Player } from "../Player";
-import { DEG_90 } from "@/app/Constants/constants";
-import { OrbitControls } from "@react-three/drei";
+import {
+  OrbitControls,
+  Sky,
+  Cloud,
+  Environment
+} from "@react-three/drei";
+import Ground from "../Ground";
 
-export const Experience = () => {
-
-  const Plane = () => {
-    const [ref] = usePlane<Mesh>(() => ({ rotation: [-DEG_90, 0, 0] }));
-    return (
-      <mesh ref={ref} position={[0, 0, 0]}>
-        <planeGeometry args={[10, 10]} />
-        <meshStandardMaterial color="lightblue" />
-      </mesh>
-    );
-  }
-
+const Experience = () => {
   return (
-    <>
-      <div style={{ height: "100vh", width: "100vw" }}>
-        <Canvas>
-          <ambientLight intensity={3} />
+    <div style={{ padding: "0px", margin: "0px", height: "100vh", width: "100vw" }}>
+      <Canvas shadows>
+        <Suspense fallback={null}>
+          <Environment
+            files="/hdr/cliffside_4k.hdr"
+          />
+
+          <Sky
+            distance={450_000}
+            sunPosition={[50, 100, 10]}
+            inclination={0}
+            azimuth={0.25}
+            turbidity={8}
+            rayleigh={2}
+            mieCoefficient={0.005}
+            mieDirectionalG={0.8}
+          />
+          {/* 
+          <Cloud 
+            position={[0, 50, 0]} 
+            opacity={0.6}
+            speed={0.2} 
+          /> */}
+
+          <ambientLight intensity={0.4} />
+          <directionalLight
+            position={[50, 100, 10]}
+            intensity={2}
+            castShadow
+          />
+
           <OrbitControls />
-          <Physics>
-            <Plane />
-            <Player />
-          </Physics>
-          <axesHelper />
-        </Canvas>
-      </div>
-    </>
+
+          <Ground />
+        </Suspense>
+        <axesHelper />
+      </Canvas>
+    </div>
   );
 }
+export default Experience;
